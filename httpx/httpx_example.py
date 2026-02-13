@@ -62,7 +62,7 @@ import httpx
 #     print(f"Ошибка запроса: {e}")
     
     
-try:
-    response = httpx.get("https://httpbin.org/delay/5")
-except httpx.ReadTimeout:
-    print("Запрос превысил лимит времени")
+# try:
+#     response = httpx.get("https://httpbin.org/delay/5", timeout=2)
+# except httpx.ReadTimeout:
+#     print("Запрос превысил лимит времени")
