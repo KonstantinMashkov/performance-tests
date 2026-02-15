@@ -26,3 +26,5 @@ class CardsGatewayHTTPClient(HTTPClient):
         Выпуск физической карты.
         """
         return self.post("/api/v1/cards/issue-physical-card", json=request)
+
+
