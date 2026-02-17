@@ -1,6 +1,7 @@
 from typing import TypedDict
 from httpx import Response
-from client import HTTPClient
+from clients.http.client import HTTPClient
+from clients.http.gateway.gateway_client import build_gateway_http_client
 
 
 class CreateUserRequestDict(TypedDict):
@@ -37,6 +38,29 @@ class UsersGatewayHTTPClient(HTTPClient):
         """
         return self.post("/api/v1/users", json=request)
     
+
+def build_users_gateway_http_client() -> UsersGatewayHTTPClient:
+    return UsersGatewayHTTPClient(client=build_gateway_http_client())
+
+
+
+
+# client_user = build_users_gateway_http_client()
+#
+# # Данные нового пользователя
+# new_user = CreateUserRequestDict(
+#     email="example77667@example.com",
+#     lastName="Иванов",
+#     firstName="Иван",
+#     middleName="Иванович",
+#     phoneNumber="+79999999999",
+# )
+#
+# response = client_user.create_user_api(new_user)
+# print(response.status_code)
+# print(response.json())
+
+
 
 
 # from httpx import Client

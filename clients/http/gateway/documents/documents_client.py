@@ -1,6 +1,6 @@
 from httpx import Response
-
-from client import HTTPClient
+from clients.http.client import HTTPClient
+from clients.http.gateway.gateway_client import build_gateway_http_client
 
 
 class DocumentsGatewayHTTPClient(HTTPClient):
@@ -26,4 +26,5 @@ class DocumentsGatewayHTTPClient(HTTPClient):
         """
         return self.get(f"/api/v1/documents/contract-document/{account_id}")
 
-    
+def build_users_gateway_http_client() -> DocumentsGatewayHTTPClient:
+    return DocumentsGatewayHTTPClient(client=build_gateway_http_client())

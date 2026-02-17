@@ -1,6 +1,8 @@
 from typing import TypedDict
 from httpx import Response
-from client import HTTPClient
+from clients.http.client import HTTPClient
+from clients.http.gateway.gateway_client import build_gateway_http_client
+
 
 class CardsRequestDict(TypedDict):
     """
@@ -28,3 +30,5 @@ class CardsGatewayHTTPClient(HTTPClient):
         return self.post("/api/v1/cards/issue-physical-card", json=request)
 
 
+def build_cards_gateway_http_client() -> CardsGatewayHTTPClient:
+    return CardsGatewayHTTPClient(client=build_gateway_http_client())

@@ -1,6 +1,7 @@
 from typing import TypedDict
 from httpx import Response, QueryParams
-from client import HTTPClient
+from clients.http.client import HTTPClient
+from clients.http.gateway.gateway_client import build_gateway_http_client
 
 
 class GetAccountsQueryDict(TypedDict):
@@ -90,3 +91,5 @@ class AccountsGatewayHTTPClient(HTTPClient):
     
 
 
+def build_accounts_gateway_http_client() -> AccountsGatewayHTTPClient:
+    return AccountsGatewayHTTPClient(client=build_gateway_http_client())
