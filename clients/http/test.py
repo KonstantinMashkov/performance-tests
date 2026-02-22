@@ -1,6 +1,7 @@
 import time
 from httpx import Client
-from clients.http.gateway.users.user_client import UsersGatewayHTTPClient, CreateUserRequestDict
+from clients.http.gateway.users.user_client import UsersGatewayHTTPClient
+from clients.http.gateway.users.user_schema import UserSchema, GetUserResponseSchema, CreateUserRequestSchema
 from clients.http.gateway.accounts.accounts_client import AccountsGatewayHTTPClient, OpenDepositAccountRequestDict
 from  clients.http.gateway.operations.operation_client import OperationsGatewayHTTPClient, GetOperationsSummaryQueryDict
 
@@ -14,7 +15,7 @@ users_client = UsersGatewayHTTPClient(http_client)
 
 
 # Данные нового пользователя
-new_user = CreateUserRequestDict(
+new_user = CreateUserRequestSchema(
     email=f"user.{time.time()}@example.com",
     lastName="Иванов",
     firstName="Иван",

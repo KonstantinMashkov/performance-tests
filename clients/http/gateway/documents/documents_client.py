@@ -1,29 +1,9 @@
-from typing import TypedDict
 from httpx import Response
 from clients.http.client import HTTPClient
 from clients.http.gateway.gateway_client import build_gateway_http_client
 
-
-class DocumentDict(TypedDict):
-    """
-    Описание структуры документа.
-    """
-    url: str
-    document: str
-
-
-class GetTariffDocumentResponseDict(TypedDict):
-    """
-    Описание структуры ответа получения документа тарифа.
-    """
-    tariff: DocumentDict
-
-
-class GetContractDocumentResponseDict(TypedDict):
-    """
-    Описание структуры ответа получения документа контракта.
-    """
-    contract: DocumentDict
+from clients.http.gateway.documents.documents_schema import (GetContractDocumentResponseSchema,
+                                                             GetTariffDocumentResponseSchema)
 
 
 class DocumentsGatewayHTTPClient(HTTPClient):
@@ -36,7 +16,7 @@ class DocumentsGatewayHTTPClient(HTTPClient):
         Получить тарифа по счету.
 
         :param account_id: Идентификатор счета.
-        :return: Ответ от сервера (объект httpx.Response).
+        :return: Ответ от сервера (объект httpx. Response).
         """
         return self.get(f"/api/v1/documents/tariff-document/{account_id}")
 
@@ -45,17 +25,17 @@ class DocumentsGatewayHTTPClient(HTTPClient):
         Получить контракта по счету.
 
         :param account_id: Идентификатор счета.
-        :return: Ответ от сервера (объект httpx.Response).
+        :return: Ответ от сервера (объект httpx. Response).
         """
         return self.get(f"/api/v1/documents/contract-document/{account_id}")
 
-    def get_tariff_document(self, account_id: str) -> GetTariffDocumentResponseDict:
+    def get_tariff_document(self, account_id: str) -> GetTariffDocumentResponseSchema:
         response = self.get_tariff_document_api(account_id)
-        return response.json()
+        return GetTariffDocumentResponseSchema.model_validate_json(response.text)
 
-    def get_contract_document(self, account_id: str) -> GetContractDocumentResponseDict:
+    def get_contract_document(self, account_id: str) -> GetContractDocumentResponseSchema:
         response = self.get_contract_document_api(account_id)
-        return response.json()
+        return GetContractDocumentResponseSchema.model_validate_json(response.text)
 
 
 def build_documents_gateway_http_client() -> DocumentsGatewayHTTPClient:
