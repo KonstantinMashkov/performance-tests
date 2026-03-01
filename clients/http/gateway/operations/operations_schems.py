@@ -1,5 +1,10 @@
-from pydantic import BaseModel, Field, ConfigDict
+from datetime import datetime
 from enum import StrEnum
+
+from pydantic import BaseModel, Field, HttpUrl, ConfigDict
+
+from tools.fakers import fake
+
 
 class OperationType(StrEnum):
     FEE = "FEE"
@@ -15,7 +20,7 @@ class OperationStatus(StrEnum):
     FAILED = "FAILED"
     COMPLETED = "COMPLETED"
     IN_PROGRESS = "IN_PROGRESS"
-    UNSPECIFIED = "UNSPECIFIED"
+
 
 class OperationSchema(BaseModel):
     """
@@ -27,7 +32,7 @@ class OperationSchema(BaseModel):
     amount: float
     card_id: str = Field(alias="cardId")
     category: str
-    created_at: str = Field(alias="createdAt")
+    created_at: datetime = Field(alias="createdAt")
     account_id: str = Field(alias="accountId")
 
 
@@ -35,7 +40,7 @@ class OperationReceiptSchema(BaseModel):
     """
     Описание структуры чека по операции.
     """
-    url: str
+    url: HttpUrl
     document: str
 
 
@@ -68,8 +73,6 @@ class GetOperationsResponseSchema(BaseModel):
     """
     Описание структуры ответа получения списка операций.
     """
-    model_config = ConfigDict(populate_by_name=True)
-
     operations: list[OperationSchema]
 
 
@@ -77,6 +80,8 @@ class GetOperationsSummaryQuerySchema(BaseModel):
     """
     Структура query параметров запроса для получения статистики по операциям счёта.
     """
+    model_config = ConfigDict(populate_by_name=True)
+
     account_id: str = Field(alias="accountId")
 
 
@@ -100,8 +105,8 @@ class MakeOperationRequestSchema(BaseModel):
     """
     model_config = ConfigDict(populate_by_name=True)
 
-    status: str
-    amount: float
+    status: OperationStatus = Field(default_factory=lambda: fake.enum(OperationStatus))
+    amount: float = Field(default_factory=fake.amount)
     card_id: str = Field(alias="cardId")
     account_id: str = Field(alias="accountId")
 
@@ -169,7 +174,7 @@ class MakePurchaseOperationRequestSchema(MakeOperationRequestSchema):
     Дополнительное поле:
     - category: категория покупки.
     """
-    category: str
+    category: str = Field(default_factory=fake.category)
 
 
 class MakePurchaseOperationResponseSchema(BaseModel):

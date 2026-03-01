@@ -115,3 +115,5 @@ class Fake:
 
 # Создаем экземпляр класса Fake с использованием Faker
 fake = Fake(faker=Faker())
+
+# print(fake.phone_number())
