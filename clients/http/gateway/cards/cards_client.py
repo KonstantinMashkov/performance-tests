@@ -1,6 +1,7 @@
 from httpx import Response
+from locust.env import Environment
 from clients.http.client import HTTPClient
-from clients.http.gateway.gateway_client import build_gateway_http_client
+from clients.http.gateway.gateway_client import build_gateway_http_client, build_gateway_locust_http_client
 from clients.http.gateway.cards.cards_schema import (
     IssuePhysicalCardResponseSchema,
     IssuePhysicalCardRequestSchema,
@@ -55,3 +56,6 @@ def build_cards_gateway_http_client() -> CardsGatewayHTTPClient:
     :return: Готовый к использованию CardsGatewayHTTPClient.
     """
     return CardsGatewayHTTPClient(client=build_gateway_http_client())
+
+def build_cards_gateway_locust_http_client(environment: Environment) -> CardsGatewayHTTPClient:
+    return CardsGatewayHTTPClient(client=build_gateway_locust_http_client(environment))
