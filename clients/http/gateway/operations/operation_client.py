@@ -229,5 +229,6 @@ def build_operations_gateway_http_client() -> OperationsGatewayHTTPClient:
     return OperationsGatewayHTTPClient(client=build_gateway_http_client())
 
 
-def build_operation_gateway_locust_http_client(environment: Environment) -> OperationsGatewayHTTPClient:
+def build_operations_gateway_locust_http_client(environment: Environment) -> OperationsGatewayHTTPClient:
     return OperationsGatewayHTTPClient(client=build_gateway_locust_http_client(environment))
+
