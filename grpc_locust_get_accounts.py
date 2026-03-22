@@ -31,4 +31,4 @@ class GetAccountsScenarioUser(User):
     """
     host = "localhost"
     tasks = [GetAccountsTaskSet]
-    wait_time = between(1, 3)  # Имитируем паузы между выполнением сценариев
+    wait_time = between(0.5, 1)  # Имитируем паузы между выполнением сценариев
